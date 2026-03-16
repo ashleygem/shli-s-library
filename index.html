@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arcane Library — Book Borrowing</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Upright:ital,wght@0,300;0,500;0,700;1,300;1,500&family=IM+Fell+English:ital@0;1&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Spectral:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ─── AMBIENT LIGHT ─── -->
+<div class="ambient amb-1"></div>
+<div class="ambient amb-2"></div>
+<div class="ambient amb-3"></div>
+
+<!-- ─── HEADER ─── -->
+<header>
+  <div class="logo">
+    <div class="logo-emblem">
+      <svg viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="23,3 43,13 43,33 23,43 3,33 3,13"
+          fill="none" stroke="url(#logoGrad)" stroke-width="1.5"/>
+        <polygon points="23,9 37,16 37,30 23,37 9,30 9,16"
+          fill="none" stroke="url(#logoGrad)" stroke-width="0.8" opacity="0.5"/>
+        <text x="23" y="27" text-anchor="middle"
+          font-family="serif" font-size="14" fill="url(#logoGrad)">✦</text>
+        <defs>
+          <linearGradient id="logoGrad" x1="0" y1="0" x2="46" y2="46">
+            <stop offset="0%" stop-color="#F0C96A"/>
+            <stop offset="50%" stop-color="#C8883A"/>
+            <stop offset="100%" stop-color="#D9A84B"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+    <div class="logo-text">
+      <span class="logo-name">Shli's Library</span>
+      <span class="logo-tagline">Est. MMXXIV · Grand Archives</span>
+    </div>
+  </div>
+
+  <nav>
+    <a href="#">Discover</a>
+    <a href="#">Collections</a>
+    <a href="#">Authors</a>
+    <a href="#">Reading Room</a>
+  </nav>
+
+  <div class="header-actions">
+    <div class="search-wrap">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(217,168,75,0.5)" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input type="text" id="searchInput" placeholder="Search the archives…" oninput="handleSearch(this.value)">
+    </div>
+    <button class="btn-my-books" onclick="togglePanel()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+      </svg>
+      My Bookings
+      <span class="booking-badge" id="badgeCount">0</span>
+    </button>
+  </div>
+</header>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">
+      <div class="hero-eyebrow-line"></div>
+      <span>Est. MMXXIV · Grand Archives</span>
+    </div>
+    <h1 class="hero-title">
+      <span class="line1">Discover &amp;</span>
+      <span class="line2">Borrow Volumes</span>
+    </h1>
+    <p class="hero-desc">
+      Step into a realm of infinite stories. Browse our curated collections spanning
+      mythology, science, philosophy, and beyond — reserve your next great read today.
+    </p>
+    <div class="hero-ctas">
+      <button class="btn-primary" onclick="document.querySelector('.books-section').scrollIntoView({behavior:'smooth'})">
+        Browse Collection
+      </button>
+      <button class="btn-secondary" onclick="togglePanel()">
+        My Bookings
+      </button>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat">
+        <div class="hstat-num" id="c-volumes">0</div>
+        <div class="hstat-label">Volumes</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-num" id="c-authors">0</div>
+        <div class="hstat-label">Authors</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-num" id="c-genres">0</div>
+        <div class="hstat-label">Genres</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-book-scene" onclick="openModal(books[0])">
+      <div class="hbook-face">
+        <div class="hbook-face-img"></div>
+        <div class="hbook-face-overlay"></div>
+        <div class="hbook-frame"></div>
+        <div class="hbook-face-content">
+          <div class="hbook-ornament">— ✦ —</div>
+          <div>
+            <div class="hbook-badge">★ Pick of the Season</div>
+            <div class="hbook-title">The Night<br>Circus</div>
+            <div class="hbook-author">Erin Morgenstern</div>
+          </div>
+          <div class="hbook-ornament">⁂</div>
+        </div>
+      </div>
+      <div class="hbook-spine">
+        <span class="hbook-spine-text">The Night Circus · Morgenstern</span>
+      </div>
+      <div class="hbook-pages"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── ORNAMENT DIVIDER ─── -->
+<div class="ornament-divider">
+  <div class="orn-line"></div>
+  <div class="orn-center">⁂ ⁂ ⁂</div>
+  <div class="orn-line"></div>
+</div>
+
+<!-- ─── EDITOR'S PICK ─── -->
+<section class="pick-section">
+  <div class="sec-head">
+    <div class="sec-head-left">
+      <span class="sec-eyebrow">Editor's Sanctum</span>
+      <span class="sec-title">Pick of the Season</span>
+    </div>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="pick-card" id="pickCard">
+    <div class="pick-bg"></div>
+    <div class="pick-book-wrap">
+      <div class="pick-3d">
+        <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300&q=80" alt="The Night Circus">
+      </div>
+    </div>
+    <div class="pick-content">
+      <div class="pick-badge">★ Editor's Choice · MMXXVI</div>
+      <div class="pick-title">The Night Circus</div>
+      <div class="pick-author">Erin Morgenstern</div>
+      <p class="pick-desc">
+        A breathtaking tale of two young illusionists locked in a mysterious competition
+        set within a magical black-and-white circus that only appears at night.
+        A story of obsession, wonder, and the magic found in darkness.
+      </p>
+      <div class="pick-meta">
+        <div class="pm-item">
+          <span class="pm-label">Genre</span>
+          <span class="pm-value">Magical Realism</span>
+        </div>
+        <div class="pm-item">
+          <span class="pm-label">Pages</span>
+          <span class="pm-value">387</span>
+        </div>
+        <div class="pm-item">
+          <span class="pm-label">Rating</span>
+          <span class="pm-value">★ 4.8 / 5</span>
+        </div>
+        <div class="pm-item">
+          <span class="pm-label">Copies</span>
+          <span class="pm-value" id="pickCopies">3 Available</span>
+        </div>
+      </div>
+      <div class="pick-actions">
+        <button class="btn-primary" id="pickBookBtn" onclick="bookPickOfSeason()">Reserve This Volume</button>
+        <button class="btn-secondary" onclick="openModal(books[0])">View Details</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FILTER BAR ─── -->
+<div class="filter-bar" id="filterBar">
+  <div class="fpill active" onclick="filterBooks('All',this)">All Genres</div>
+  <div class="fpill" onclick="filterBooks('Mythology',this)">Mythology</div>
+  <div class="fpill" onclick="filterBooks('Philosophy',this)">Philosophy</div>
+  <div class="fpill" onclick="filterBooks('Science',this)">Science</div>
+  <div class="fpill" onclick="filterBooks('Fiction',this)">Fiction</div>
+  <div class="fpill" onclick="filterBooks('History',this)">History</div>
+  <div class="fpill" onclick="filterBooks('Mystery',this)">Mystery</div>
+  <div class="fpill" onclick="filterBooks('Poetry',this)">Poetry</div>
+</div>
+
+<!-- ─── BOOKS GRID ─── -->
+<section class="books-section">
+  <div class="sec-head">
+    <div class="sec-head-left">
+      <span class="sec-eyebrow">Browse the Stacks</span>
+      <span class="sec-title">All Volumes</span>
+    </div>
+    <div class="sec-line"></div>
+    <span class="sec-count" id="resultCount">Showing 12 volumes</span>
+  </div>
+  <div class="books-grid" id="booksGrid"></div>
+</section>
+
+<!-- ─── READING SHELF ─── -->
+<section class="shelf-section">
+  <div class="sec-head">
+    <div class="sec-head-left">
+      <span class="sec-eyebrow">In Progress</span>
+      <span class="sec-title">Your Reading Shelf</span>
+    </div>
+    <div class="sec-line"></div>
+  </div>
+  <div class="shelf-row" id="shelfRow"></div>
+</section>
+
+<!-- ─── STATS STRIP ─── -->
+<div class="stats-strip">
+  <div class="ss-item">
+    <span class="ss-num">24</span>
+    <span class="ss-label">Books Read</span>
+  </div>
+  <div class="ss-item">
+    <span class="ss-num">7,340</span>
+    <span class="ss-label">Pages Turned</span>
+  </div>
+  <div class="ss-item">
+    <span class="ss-num" id="activeBookings">0</span>
+    <span class="ss-label">Active Loans</span>
+  </div>
+  <div class="ss-item">
+    <span class="ss-num">138</span>
+    <span class="ss-label">On Wishlist</span>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <span class="foot-left">Curated with care — where stories live forever</span>
+  <span class="foot-right"><span class="foot-brand">Arcane Library</span> · All Rights Reserved MMXXVI</span>
+</footer>
+
+<!-- ─── PANEL OVERLAY ─── -->
+<div class="panel-overlay" id="panelOverlay" onclick="togglePanel()"></div>
+
+<!-- ─── BOOKINGS PANEL ─── -->
+<div class="bookings-panel" id="bookingsPanel">
+  <div class="bp-header">
+    <div>
+      <div class="bp-title">My Bookings</div>
+      <div class="bp-subtitle">Your reserved volumes</div>
+    </div>
+    <button class="bp-close" onclick="togglePanel()">✕</button>
+  </div>
+
+  <div class="bp-tabs">
+    <div class="bp-tab active" onclick="switchTab('active',this)">Active</div>
+    <div class="bp-tab" onclick="switchTab('history',this)">History</div>
+  </div>
+
+  <div class="bp-body" id="bpBody">
+    <div class="bp-empty" id="bpEmpty">
+      <div class="bp-empty-icon">📚</div>
+      <p>No active bookings yet.<br>Browse the collection and reserve a volume.</p>
+    </div>
+    <div id="bpList"></div>
+  </div>
+
+  <div class="bp-summary" id="bpSummary">
+    <div class="bp-summary-row">
+      <span class="bps-label">Active Loans</span>
+      <span class="bps-value" id="bps-active">0 volumes</span>
+    </div>
+    <div class="bp-summary-row">
+      <span class="bps-label">Next Due Date</span>
+      <span class="bps-value" id="bps-due">—</span>
+    </div>
+    <button class="bp-confirm-btn" id="bpConfirmBtn" disabled onclick="confirmAllBookings()">
+      Confirm All Returns
+    </button>
+  </div>
+</div>
+
+<!-- ─── BOOK DETAIL MODAL ─── -->
+<div class="modal-overlay" id="detailModal" onclick="handleModalClick(event)">
+  <div class="modal" id="modalBox">
+    <div class="modal-top-bar"></div>
+    <button class="modal-close-x" onclick="closeModal()">✕</button>
+    <div class="modal-inner">
+      <div class="modal-header">
+        <div class="modal-book-3d">
+          <img id="m-img" src="" alt="">
+        </div>
+        <div class="modal-info">
+          <div class="modal-genre-tag" id="m-genre"></div>
+          <div class="modal-title"     id="m-title"></div>
+          <div class="modal-author"    id="m-author"></div>
+          <div class="modal-stars"     id="m-stars"></div>
+          <div class="modal-tags"      id="m-tags"></div>
+        </div>
+      </div>
+      <div class="modal-divider"></div>
+      <p class="modal-desc" id="m-desc"></p>
+      <div class="modal-meta-grid" id="m-meta"></div>
+
+      <div class="date-row" id="dateRow">
+        <label>Return by:</label>
+        <input type="date" id="returnDate">
+      </div>
+
+      <div class="modal-avail-row">
+        <div class="avail-indicator" id="m-avail">
+          <div class="avail-dot green"></div>
+          <span></span>
+        </div>
+        <span class="avail-copies" id="m-copies"></span>
+      </div>
+
+      <div class="modal-actions">
+        <button class="modal-book-btn"  id="m-book-btn" onclick="bookFromModal()">Reserve This Volume</button>
+        <button class="modal-close-btn" onclick="closeModal()">Close Tome</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── CONFIRM DIALOG ─── -->
+<div class="confirm-dialog" id="confirmDialog">
+  <div class="confirm-box">
+    <div class="confirm-icon">📖</div>
+    <div class="confirm-title" id="cd-title">Confirm Return</div>
+    <p class="confirm-msg"     id="cd-msg">Are you sure you want to return this volume?</p>
+    <div class="confirm-btns">
+      <button class="confirm-yes" id="cd-yes">Confirm</button>
+      <button class="confirm-no"  onclick="closeConfirm()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── TOAST CONTAINER ─── -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ─── SCRIPTS (loaded last so DOM is ready) ─── -->
+<script src="app.js"></script>
+
+</body>
+</html>
