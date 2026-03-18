@@ -9,10 +9,11 @@
 </head>
 <body>
 
-<!-- ─── AMBIENT LIGHT ─── -->
+<!-- ─── AMBIENT ORBS ─── -->
 <div class="ambient amb-1"></div>
 <div class="ambient amb-2"></div>
 <div class="ambient amb-3"></div>
+<div class="ambient amb-4"></div>
 
 <!-- ─── HEADER ─── -->
 <header>
@@ -49,7 +50,7 @@
 
   <div class="header-actions">
     <div class="search-wrap">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(217,168,75,0.5)" stroke-width="2">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(217,168,75,0.6)" stroke-width="2">
         <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
       </svg>
       <input type="text" id="searchInput" placeholder="Search the archives…" oninput="handleSearch(this.value)">
@@ -350,7 +351,6 @@
 <!-- ─── TOAST CONTAINER ─── -->
 <div class="toast-container" id="toastContainer"></div>
 
-<!-- ─── SCRIPTS (loaded last so DOM is ready) ─── -->
 <script src="app.js"></script>
 
 </body>
